@@ -22,21 +22,28 @@ def register_view(request):
 def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request, data=request.POST)
-        print("Form submitted") # Debug
+        print("Form submitted")
+        print(f"POST data: {request.POST}")  # In ra dữ liệu POST
+        
         if form.is_valid():
-            print("Form is valid") # Debug
+            print("Form is valid")
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
+            print(f"Attempting login with username: {username}")
+            
             user = authenticate(request, username=username, password=password)
-            print(f"User authenticated: {user}") # Debug
+            print(f"Authentication result: {user}")
+            
             if user is not None:
                 login(request, user)
-                print("User logged in successfully") # Debug
-                return redirect('home')  # Thay 'home' bằng tên URL pattern của homepage của bạn
+                print("Login successful")
+                return redirect('home')  # Đảm bảo 'home' là tên URL pattern của trang chủ
             else:
+                print("Authentication failed")
                 messages.error(request, 'Tên đăng nhập hoặc mật khẩu không chính xác!')
         else:
-            print(f"Form errors: {form.errors}") # Debug
+            print(f"Form errors: {form.errors}")
+            messages.error(request, 'Vui lòng kiểm tra lại thông tin đăng nhập!')
     else:
         form = UserLoginForm()
     return render(request, 'user/login.html', {'form': form})
