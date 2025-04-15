@@ -37,6 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blogapp',
+    'homepage',
+    'userapp',
+]
+
+AUTH_USER_MODEL = 'userapp.CustomUser'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
 ]
 
 MIDDLEWARE = [
@@ -54,7 +67,7 @@ ROOT_URLCONF = 'blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,8 +87,12 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'blog_project',
+        'USER': 'postgres',  
+        'PASSWORD': 'mh071204',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
